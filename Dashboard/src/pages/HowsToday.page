@@ -1,0 +1,140 @@
+<apex:page controller="HowsToday" docType="html-5.0" sidebar="false" >
+    <apex:includeScript value="/support/console/26.0/integration.js"/>
+    <script type="text/javascript">
+    
+    </script>
+    <style type="text/css">
+        table.gridtable {
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
+        }
+        table.gridtable th {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: #dedede;
+        }
+        table.gridtable td {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: #ffffff;
+        }
+    </style>
+    
+    <apex:form >
+        <apex:pageblock title="Daily Stats" rendered="true">
+            <Apex:outputText value="Please select the section to view Stats:  "></Apex:outputText>
+            <apex:selectList value="{!selectedValue}" size="1">
+                <apex:selectOptions value="{!sectionValue}"></apex:selectOptions>
+            </apex:selectList>
+            <apex:commandButton value="Show Section" action="{!showSections}"/>
+            <br></br><br></br><br></br>
+        </apex:pageBlock>
+        <apex:pageblock rendered="true">
+            <apex:pageBlockSection title="Cases" collapsible="false">
+            </apex:pageBlockSection>
+            
+            <div id="cases">
+                <table style="width:20%;display:inline-block;float:left;border:1px">
+                <tr>
+                        <td><apex:outputLabel style="float:right"><b>TODAY</b></apex:outputLabel></td>
+                        
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel value="Cases Created"></apex:outputLabel></td>
+                        <td width=""><apex:outputText label="Cases Created" value="{!caseCreated}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel value="Cases Closed"></apex:outputLabel></td>
+                        <td><apex:outputText label="Cases Closed" value="{!casesClosed}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel value="Cases Updated(excluding Closed)"></apex:outputLabel></td>
+                        <td><apex:outputText label="Cases Updated(excluding Closed)" value="{!casesUpdated}"/></td>
+                    </tr>
+                    <tr>
+                        <td><apex:outputLabel value="Cases Not Updated"></apex:outputLabel></td>
+                        <td><apex:outputText label="Cases Not Updated" value="{!casesNotUpdated}"/></td>
+                    </tr>
+                </table>
+                
+                <table  style="width:20%;display:inline-block" >
+                    <tr>
+                        <td>
+                            <apex:chart height="200" width="200" data="{!CasesByStatus}"> 
+                                  
+                                <apex:axis type="Category" position="left" fields="status" title="Status"/>
+                                <apex:axis type="Numeric" position="bottom" fields="total" title="Count"/>              
+                                <apex:barSeries orientation="horizontal" axis="left" xField="total" yField="status"/> 
+                            </apex:chart>
+                        </td>
+                    </tr>
+                    
+                </table>
+                <table  style="width:20%;display:inline-block" >
+                    <tr>
+                        <td>
+                            <apex:chart height="210" width="250" data="{!CasesByPriority}"> 
+                                   
+                                <apex:axis type="Category" position="left" fields="priority" title="Priority"/> 
+                                <apex:axis type="Numeric" position="bottom" fields="total" title="Count" minimum="0" maximum="40" margin="4" />            
+                                <apex:barSeries orientation="horizontal" axis="left" xField="total" yField="priority" /> 
+                            </apex:chart>
+                        </td>
+                    </tr>
+                    
+                </table>
+                <table  style="width:20%;display:inline-block" >
+                    <tr>
+                        <td>
+                            <apex:chart height="300" width="300" data="{!CaseClosedByOwner}" resizable="false">
+                                <apex:pieSeries dataField="total" labelField="owner" tips="true"/>
+                                <apex:legend position="right"/>
+                            </apex:chart>
+                        </td>
+                    </tr>
+                    
+                </table>
+                
+                <apex:dataTable value="{!closedCountByOwner}" var="x" style="display:inline-block; float:right" styleClass="gridtable">
+                    
+                    <apex:column headerValue="Owner Name" value="{!x.owner}"/>
+                    <apex:column headerValue="New" value="{!x.newCount}"/>
+                    <apex:column headerValue="Closed" value="{!x.closedCount}"/>
+                    
+                </apex:dataTable>
+            </div>
+        </apex:pageblock>
+        <apex:pageblock rendered="{!showSection=='Leads'}">
+            <apex:pageblockSection title="Leads" >
+                <apex:outputText label="Leads Created" value="{!leadsCreated}"/>
+                
+            </apex:pageblockSection>
+        </apex:pageblock>
+        
+        <apex:pageblock rendered="{!showSection=='Accounts'}">
+            <apex:pageblockSection title="Accounts">
+            </apex:pageblockSection>
+        </apex:pageblock>
+        <apex:pageblock rendered="{!showSection=='Contacts'}">
+            <apex:pageblockSection title="Contacts">
+            </apex:pageblockSection>
+            
+            <apex:pageblockSection title="Opportunities">
+            </apex:pageblockSection>
+            <apex:pageblockSection title="Contracts">
+            </apex:pageblockSection>
+            <apex:pageblockSection title="Orders">
+            </apex:pageblockSection>
+            <apex:pageblockSection title="Users">
+            </apex:pageblockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

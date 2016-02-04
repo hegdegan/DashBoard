@@ -1,0 +1,36 @@
+<apex:page controller="Configuration">
+<apex:form >
+<apex:pageBlock >
+<apex:pageblockButtons >
+
+</apex:pageblockButtons>
+<apex:pageBlockSection title="Cases" >
+    <apex:selectList label="Status when Case is Created" size="1">
+        
+        <apex:selectOptions value="{!caseStatus}"></apex:selectOptions>
+    </apex:selectList>
+    <apex:selectList label="Status when Case is Closed" size="1">
+        
+        <apex:selectOptions value="{!caseStatus}"></apex:selectOptions>
+    </apex:selectList>
+</apex:pageBlockSection>
+
+<apex:pageBlockSection title="Leads" >
+    <apex:selectList label="Status when Lead is Created" size="1">
+        
+        <apex:selectOptions value="{!leadStatus}"></apex:selectOptions>
+    </apex:selectList>
+    <apex:selectList label="Status when Lead is Converted" size="1">
+        
+        <apex:selectOptions value="{!leadStatus}"></apex:selectOptions>
+    </apex:selectList>
+    <apex:selectList label="Status when Lead is Not Converted and Closed" size="1">
+        
+        <apex:selectOptions value="{!leadStatus}"></apex:selectOptions>
+    </apex:selectList>
+</apex:pageBlockSection>
+</apex:pageBlock>
+
+
+</apex:form>
+</apex:page>
